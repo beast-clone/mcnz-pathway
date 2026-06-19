@@ -544,4 +544,81 @@ const faq = [
     </div>
     <a class="btn btn-red" href="https://rzp.io/rzp/tMthGCGv" target="_blank" rel="noopener">Get the Handbook →</a>
   </div>
+
+  <!-- ========== STATS COUNT-UP ========== -->
+  <script is:inline>
+    (function () {
+      var grid = document.querySelector('.stats-grid');
+      if (!grid) return;
+      var nums = grid.querySelectorAll('.num');
+      if (!nums.length) return;
+
+      var parsed = [];
+      nums.forEach(function (el) {
+        var firstNode = el.firstChild;
+        if (!firstNode || firstNode.nodeType !== 3) return;
+        var fullText = firstNode.textContent;
+        var match = fullText.match(/^(\D*)([\d,]+)(.*)$/);
+        if (!match) return;
+        var target = parseInt(match[2].replace(/,/g, ''), 10);
+        if (!isFinite(target)) return;
+        parsed.push({
+          node: firstNode,
+          prefix: match[1],
+          suffix: match[3] || '',
+          target: target,
+          useCommas: match[2].indexOf(',') !== -1 || target >= 1000,
+          original: fullText
+        });
+      });
+
+      if (!parsed.length) return;
+
+      // Set starting value to 0 with formatting
+      parsed.forEach(function (p) {
+        p.node.textContent = p.prefix + '0' + p.suffix;
+      });
+
+      var animated = false;
+      var duration = 1700;
+      function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+      function fmt(n, useCommas) {
+        return useCommas ? n.toLocaleString('en-US') : String(n);
+      }
+
+      function animate() {
+        if (animated) return;
+        animated = true;
+        var start = performance.now();
+        function step(now) {
+          var t = Math.min((now - start) / duration, 1);
+          var e = easeOut(t);
+          parsed.forEach(function (p) {
+            var v = Math.floor(p.target * e);
+            p.node.textContent = p.prefix + fmt(v, p.useCommas) + p.suffix;
+          });
+          if (t < 1) requestAnimationFrame(step);
+          else parsed.forEach(function (p) { p.node.textContent = p.original; });
+        }
+        requestAnimationFrame(step);
+      }
+
+      var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) {
+        parsed.forEach(function (p) { p.node.textContent = p.original; });
+        return;
+      }
+
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { animate(); io.disconnect(); }
+          });
+        }, { threshold: 0.3 });
+        io.observe(grid);
+      } else {
+        animate();
+      }
+    })();
+  </script>
 </Layout>
