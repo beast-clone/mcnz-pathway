@@ -1,0 +1,670 @@
+---
+const RAW_BASE = import.meta.env.BASE_URL;
+const BASE = RAW_BASE.endsWith('/') ? RAW_BASE : RAW_BASE + '/';
+
+const chapters = [
+  { n: '01', t: 'Why New Zealand? Workforce gaps, salaries, and the IMG opportunity', m: 'Free', free: true },
+  { n: '02', t: 'Registration Pathways — NZREX, Exam-Based, and Australia/UK routes', m: '14 min' },
+  { n: '03', t: 'EPIC Primary Source Verification', m: '11 min' },
+  { n: '04', t: 'Financial Planning — costs, timelines, and budgeting', m: '12 min' },
+  { n: '05', t: 'Study Resources & Job Portals', m: '10 min' },
+  { n: '06', t: 'Salary, Tax & Living Costs', m: '12 min' },
+  { n: '07', t: 'Visa, PR & Citizenship', m: '13 min' },
+  { n: '08', t: 'Official Reference Portals', m: '7 min' },
+];
+
+const stats = [
+  { num: '1,700', label: 'Doctor shortage in NZ — projected to hit 3,400 by 2032' },
+  { num: '43%', label: 'Of NZ\'s registered doctors are overseas-trained' },
+  { num: '$81,990', label: 'House Officer starting salary (NZD)' },
+  { num: '$216,200', label: 'Senior Registrar top salary (NZD)' },
+];
+
+const audience = [
+  { icon: '🩺', title: 'Qualified IMGs', body: 'Doctors who already hold AMC, PLAB, USMLE or MCCQE.' },
+  { icon: '🌏', title: 'Career Explorers', body: 'Sizing up NZ as your next destination before committing.' },
+  { icon: '🔍', title: 'Clarity Seekers', body: 'One reliable structured source instead of forum threads.' },
+  { icon: '📊', title: 'Financial Planners', body: 'Clear cost, salary, and tax numbers before you move.' },
+  { icon: '🎯', title: 'PGY1 Applicants', body: 'Final-year and post-internship doctors targeting PGY1.' },
+];
+
+const bonuses = [
+  { title: 'Official NZ CV Template', body: 'The exact format NZ hospitals expect — ready to use.' },
+  { title: '15 RMO Hospital Contacts', body: 'Direct contact details for active IMG hiring campaigns.' },
+  { title: "Master's Courses (Level 9) List", body: 'Curated Level 9 programmes for the 2-year Post-Study Work Visa.' },
+];
+
+const faq = [
+  { q: 'Who is this handbook for?', a: 'Indian Medical Graduates and final-year MBBS students seriously considering New Zealand. The handbook assumes zero prior NZ-specific knowledge.' },
+  { q: 'Is the information up to date?', a: 'Yes. Every chapter reviewed against 2026 Medical Council of New Zealand (MCNZ) rules, immigration policy, and Te Whatu Ora salary data.' },
+  { q: 'Which pathways does it cover?', a: 'All three: NZREX (exam-based), Comparable Health System (CHS), and the Australia/UK/Ireland competent authority route.' },
+  { q: 'Will I get instant access?', a: 'Yes — delivered as a PDF the moment your Razorpay payment goes through, with email + WhatsApp confirmation.' },
+  { q: 'Can I share with others?', a: 'Licensed for personal use only. The 30-minute expert call bonus is also non-transferable.' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>New Zealand Pathway Handbook v2 — GooCampus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #050B1A;
+      --bg-2: #0A1428;
+      --surface: rgba(255,255,255,0.04);
+      --surface-2: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.10);
+      --text: #F1F5F9;
+      --text-2: #B5C2D6;
+      --text-3: #6B7A94;
+      --accent: #38BDF8;
+      --accent-2: #22D3EE;
+      --accent-3: #A78BFA;
+      --gradient: linear-gradient(135deg, #1E3A8A 0%, #0EA5E9 50%, #22D3EE 100%);
+      --gradient-warm: linear-gradient(135deg, #F59E0B 0%, #F472B6 100%);
+      --font-display: 'Manrope', system-ui, sans-serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    /* Ambient gradient orbs */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::before { background: #1E3A8A; top: -200px; left: -200px; }
+    body::after { background: #22D3EE; top: 30%; right: -300px; opacity: 0.25; }
+
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 2; }
+    .wrap-narrow { max-width: 880px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 2; }
+
+    /* ===== NAV ===== */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(5,11,26,0.7);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 28px; max-width: 1180px; margin: 0 auto;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand img { width: 36px; height: 36px; object-fit: contain; }
+    .brand span {
+      font-family: var(--font-display);
+      font-weight: 700; font-size: 15px;
+      letter-spacing: -0.01em;
+    }
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: 999px;
+      background: var(--gradient);
+      color: #fff; font-weight: 700; font-size: 13px;
+      box-shadow: 0 0 30px rgba(56,189,248,0.35);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 0 40px rgba(56,189,248,0.55); }
+
+    /* ===== HERO ===== */
+    .hero { padding: 80px 0 100px; position: relative; }
+    .hero-grid {
+      display: grid; grid-template-columns: 1.1fr 0.9fr;
+      gap: 64px; align-items: center;
+    }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 16px; border-radius: 999px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      font-size: 13px; font-weight: 600; color: var(--text-2);
+      margin-bottom: 28px;
+    }
+    .pill-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent-2);
+      box-shadow: 0 0 12px var(--accent-2);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 50% { opacity: 0.5; } }
+
+    .h-hero {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5.6vw, 76px);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      font-weight: 800;
+      margin-bottom: 24px;
+    }
+    .h-hero .grad {
+      background: linear-gradient(135deg, #38BDF8, #22D3EE 50%, #A78BFA);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-lede {
+      font-size: clamp(16px, 1.5vw, 18px);
+      color: var(--text-2);
+      margin-bottom: 36px;
+      max-width: 540px;
+    }
+    .hero-cta-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 28px; border-radius: 999px;
+      font-weight: 700; font-size: 15px; cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--gradient);
+      color: #fff;
+      box-shadow: 0 10px 40px rgba(56,189,248,0.4);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 50px rgba(56,189,248,0.55); }
+    .btn-ghost {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { background: var(--surface-2); }
+
+    .price-row {
+      margin-top: 28px;
+      display: inline-flex; align-items: baseline; gap: 14px;
+      padding: 16px 24px; border-radius: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+    }
+    .price-old { font-size: 18px; color: var(--text-3); text-decoration: line-through; }
+    .price-now { font-family: var(--font-display); font-size: 38px; font-weight: 800; letter-spacing: -0.02em; }
+    .price-tag { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-2); font-weight: 700; padding-left: 14px; border-left: 1px solid var(--border); }
+
+    /* Hero book */
+    .hero-book {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      padding: 40px;
+    }
+    .hero-book img {
+      width: 100%; max-width: 340px;
+      border-radius: 6px;
+      box-shadow:
+        0 30px 80px rgba(56,189,248,0.30),
+        0 60px 120px rgba(0,0,0,0.45),
+        inset 14px 0 18px -12px rgba(0,0,0,0.55);
+      transform: rotate(-3deg) perspective(800px) rotateY(-8deg);
+      transition: transform .6s ease;
+    }
+    .hero-book img:hover { transform: rotate(0deg) perspective(800px) rotateY(0deg) translateY(-8px); }
+    .hero-book::after {
+      content: '';
+      position: absolute; inset: 20% 25% 5%;
+      background: radial-gradient(closest-side, rgba(56,189,248,0.5), transparent);
+      filter: blur(80px); z-index: -1;
+    }
+    .badge {
+      position: absolute; top: 10px; right: 30px;
+      width: 110px; height: 110px; border-radius: 50%;
+      background: var(--gradient-warm);
+      color: #fff;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      font-family: var(--font-display); font-weight: 700;
+      box-shadow: 0 10px 40px rgba(245,158,11,0.45);
+      transform: rotate(8deg);
+    }
+    .badge-num { font-size: 26px; line-height: 1; }
+    .badge-label { font-size: 9px; letter-spacing: 0.18em; margin-top: 4px; opacity: 0.95; }
+    .badge-sub { font-size: 7.5px; letter-spacing: 0.18em; margin-top: 4px; padding-top: 4px; border-top: 1px solid rgba(255,255,255,0.5); opacity: 0.95; }
+
+    /* ===== SECTION ===== */
+    section { position: relative; z-index: 2; padding: 90px 0; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--accent-2);
+      margin-bottom: 18px;
+    }
+    .eyebrow::before {
+      content: ''; width: 22px; height: 1px; background: var(--accent-2);
+    }
+    .h-section {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 800; line-height: 1.05;
+      letter-spacing: -0.025em;
+      margin-bottom: 18px;
+    }
+    .h-section .grad {
+      background: linear-gradient(135deg, #38BDF8, #A78BFA);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .section-head { max-width: 760px; margin-bottom: 56px; }
+    .section-head p { font-size: 17px; color: var(--text-2); }
+
+    /* ===== STATS ===== */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+    }
+    .stat-card {
+      padding: 32px 26px;
+      border-radius: 22px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+      transition: transform .25s ease, border-color .25s ease;
+    }
+    .stat-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 44px; font-weight: 800; letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #38BDF8, #22D3EE);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 12px; line-height: 1;
+    }
+    .stat-label { font-size: 14px; color: var(--text-2); line-height: 1.5; }
+
+    /* ===== AUDIENCE BENTO ===== */
+    .bento {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    .bento-card {
+      padding: 28px;
+      border-radius: 22px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+      transition: all .25s ease;
+    }
+    .bento-card:hover { transform: translateY(-3px); border-color: var(--accent); background: var(--surface-2); }
+    .bento-card:nth-child(1) { grid-column: span 2; }
+    .bento-card:nth-child(4) { grid-column: span 2; }
+    .bento-icon {
+      width: 48px; height: 48px; border-radius: 14px;
+      background: var(--gradient);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 18px;
+    }
+    .bento-card h4 { font-family: var(--font-display); font-size: 19px; font-weight: 700; margin-bottom: 8px; }
+    .bento-card p { font-size: 14.5px; color: var(--text-2); line-height: 1.55; }
+
+    /* ===== CHAPTERS ===== */
+    .chapters { display: flex; flex-direction: column; gap: 10px; }
+    .chapter {
+      display: flex; align-items: center; gap: 24px;
+      padding: 20px 28px;
+      border-radius: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      transition: all .2s ease;
+    }
+    .chapter:hover { border-color: var(--accent); background: var(--surface-2); }
+    .chapter-num {
+      font-family: var(--font-display);
+      font-weight: 800; font-size: 22px; color: var(--text-3);
+      min-width: 40px;
+    }
+    .chapter-title { flex: 1; font-weight: 600; font-size: 15.5px; }
+    .chapter-meta {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .chapter.is-free {
+      background: linear-gradient(135deg, rgba(56,189,248,0.15), rgba(167,139,250,0.10));
+      border: 1px solid var(--accent);
+      box-shadow: 0 0 30px rgba(56,189,248,0.15);
+    }
+    .chapter.is-free .chapter-num { color: var(--accent); }
+    .chapter.is-free .chapter-meta {
+      color: var(--bg);
+      background: var(--accent-2);
+      padding: 6px 14px;
+      border-radius: 999px;
+    }
+    .chapter-lock { color: var(--text-3); width: 18px; height: 18px; }
+
+    /* ===== BONUSES ===== */
+    .bonus-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .bonus-card {
+      padding: 32px 28px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(56,189,248,0.10), rgba(56,189,248,0.02));
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .bonus-card::before {
+      content: '+';
+      position: absolute; top: -20px; right: -10px;
+      font-size: 140px; font-family: var(--font-display); font-weight: 800;
+      color: rgba(56,189,248,0.10); line-height: 1;
+    }
+    .bonus-card h4 { font-family: var(--font-display); font-size: 19px; font-weight: 700; margin-bottom: 10px; position: relative; }
+    .bonus-card p { font-size: 14.5px; color: var(--text-2); line-height: 1.55; position: relative; }
+
+    /* ===== FAQ ===== */
+    .faq-list { display: flex; flex-direction: column; gap: 12px; }
+    .faq-item {
+      border-radius: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .faq-q {
+      width: 100%; padding: 22px 28px;
+      background: transparent; border: none;
+      color: var(--text); font-size: 16px; font-weight: 600;
+      text-align: left; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--font-body);
+    }
+    .faq-q .plus { font-size: 20px; color: var(--accent-2); transition: transform .25s ease; }
+    .faq-item.open .faq-q .plus { transform: rotate(45deg); }
+    .faq-a { padding: 0 28px; max-height: 0; overflow: hidden; transition: max-height .35s ease, padding .35s ease; }
+    .faq-a p { color: var(--text-2); font-size: 14.5px; line-height: 1.65; }
+    .faq-item.open .faq-a { padding: 0 28px 22px; max-height: 320px; }
+
+    /* ===== FINAL CTA ===== */
+    .final-cta {
+      padding: 80px 56px;
+      border-radius: 32px;
+      background: var(--gradient);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(56,189,248,0.35);
+    }
+    .final-cta::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.15), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(167,139,250,0.20), transparent 40%);
+    }
+    .final-cta-inner { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
+    .final-cta h2 {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4.5vw, 56px);
+      font-weight: 800; line-height: 1.05; letter-spacing: -0.025em;
+      margin-bottom: 18px;
+    }
+    .final-cta p { color: rgba(255,255,255,0.92); font-size: 17px; margin-bottom: 32px; }
+    .final-cta .price-row { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.25); margin: 0 auto 28px; display: inline-flex; }
+    .final-cta .price-now { color: #fff; }
+    .final-cta .price-old { color: rgba(255,255,255,0.65); }
+    .final-cta .price-tag { color: #fff; border-left-color: rgba(255,255,255,0.35); }
+    .final-cta .btn-primary { background: #fff; color: var(--bg); }
+    .final-cta .btn-primary:hover { box-shadow: 0 14px 50px rgba(255,255,255,0.45); }
+    .note { font-size: 13px; color: rgba(255,255,255,0.75); margin-top: 18px; }
+
+    /* ===== FOOTER ===== */
+    footer { padding: 72px 0 36px; border-top: 1px solid var(--border); margin-top: 60px; }
+    .footer-grid {
+      display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px;
+    }
+    .footer h5 {
+      font-family: var(--font-display); font-size: 11px; font-weight: 800;
+      letter-spacing: 0.20em; text-transform: uppercase;
+      color: var(--accent-2); margin-bottom: 14px;
+    }
+    .footer p, .footer address { font-style: normal; font-size: 14px; line-height: 1.7; color: var(--text-2); }
+    .footer a { color: var(--text); }
+    .footer a:hover { color: var(--accent-2); }
+    .footer-bottom {
+      margin-top: 48px; padding-top: 22px;
+      border-top: 1px solid var(--border);
+      font-size: 12px; color: var(--text-3);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 920px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .hero-book { order: -1; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .bento { grid-template-columns: 1fr; }
+      .bento-card:nth-child(1), .bento-card:nth-child(4) { grid-column: auto; }
+      .bonus-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+    }
+    @media (max-width: 540px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      section { padding: 64px 0; }
+      .final-cta { padding: 56px 24px; border-radius: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top">
+        <img src={`${BASE}goocampus-logo.png`} alt="GooCampus" />
+        <span>NZ Pathway Handbook</span>
+      </a>
+      <a class="nav-cta" href="https://rzp.io/rzp/tMthGCGv" target="_blank" rel="noopener">Get it now →</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="pill"><span class="pill-dot"></span> 2026 Edition · MCNZ verified</div>
+        <h1 class="h-hero">
+          Practice medicine<br />
+          in <span class="grad">New Zealand.</span><br />
+          One handbook. Every step.
+        </h1>
+        <p class="hero-lede">
+          The complete, structured roadmap for Indian Medical Graduates — from MCNZ registration to PGY1 placement to permanent residency. No forums. No outdated PDFs. Just answers.
+        </p>
+        <div class="hero-cta-row">
+          <a class="btn btn-primary" href="https://rzp.io/rzp/tMthGCGv" target="_blank" rel="noopener">Get your copy — ₹999 →</a>
+          <a class="btn btn-ghost" href="#inside">Preview chapter 1</a>
+        </div>
+        <div class="price-row">
+          <span class="price-old">₹2,499</span>
+          <span class="price-now">₹999</span>
+          <span class="price-tag">Launch · Instant access</span>
+        </div>
+      </div>
+      <div class="hero-book">
+        <img src={`${BASE}book-cover.png`} alt="New Zealand Medical PG Pathway Handbook" />
+        <div class="badge">
+          <span class="badge-num">30 MIN</span>
+          <span class="badge-label">EXPERT CALL</span>
+          <span class="badge-sub">INCLUDED</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- STATS -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">The numbers</div>
+        <h2 class="h-section">Why New Zealand. <span class="grad">Why now.</span></h2>
+        <p>A structural shortage, a long-term opening, and salary upside Indian doctors rarely see laid out together.</p>
+      </div>
+      <div class="stats-grid">
+        {stats.map(s => (
+          <div class="stat-card">
+            <div class="stat-num">{s.num}</div>
+            <div class="stat-label">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- AUDIENCE BENTO -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Honest fit</div>
+        <h2 class="h-section">Built for these <span class="grad">five kinds of doctors.</span></h2>
+      </div>
+      <div class="bento">
+        {audience.map(a => (
+          <div class="bento-card">
+            <div class="bento-icon">{a.icon}</div>
+            <h4>{a.title}</h4>
+            <p>{a.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTERS -->
+  <section id="inside">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">What's inside</div>
+        <h2 class="h-section">8 chapters. <span class="grad">Nothing missing.</span></h2>
+        <p><strong>Chapter 1 is free.</strong> No signup, no payment. The other 7 unlock when you get your copy.</p>
+      </div>
+      <div class="chapters">
+        {chapters.map(c => (
+          <div class={`chapter ${c.free ? 'is-free' : ''}`}>
+            <div class="chapter-num">{c.n}</div>
+            <div class="chapter-title">{c.t}</div>
+            <div class="chapter-meta">
+              {!c.free && (
+                <svg class="chapter-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px; vertical-align:middle;"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+              )}
+              {c.m}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- BONUSES -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Bonuses</div>
+        <h2 class="h-section">Three extras. <span class="grad">No extra cost.</span></h2>
+      </div>
+      <div class="bonus-grid">
+        {bonuses.map(b => (
+          <div class="bonus-card">
+            <h4>{b.title}</h4>
+            <p>{b.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="wrap-narrow">
+      <div class="section-head">
+        <div class="eyebrow">Before you buy</div>
+        <h2 class="h-section">Frequently asked <span class="grad">questions.</span></h2>
+      </div>
+      <div class="faq-list">
+        {faq.map(f => (
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              {f.q}
+              <span class="plus">+</span>
+            </button>
+            <div class="faq-a"><p>{f.a}</p></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section>
+    <div class="wrap-narrow">
+      <div class="final-cta">
+        <div class="final-cta-inner">
+          <h2>Your New Zealand career<br/>is one decision away.</h2>
+          <p>The launch price holds for the first 500 copies only.</p>
+          <div class="price-row">
+            <span class="price-old">₹2,499</span>
+            <span class="price-now">₹999</span>
+            <span class="price-tag">Instant PDF</span>
+          </div>
+          <div>
+            <a class="btn btn-primary" href="https://rzp.io/rzp/tMthGCGv" target="_blank" rel="noopener">Get your copy now →</a>
+          </div>
+          <div class="note">Instant PDF · Free 2026 updates · One-time payment</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="brand" style="margin-bottom:18px;">
+            <img src={`${BASE}goocampus-logo.png`} alt="GooCampus" />
+            <span>GooCampus</span>
+          </div>
+          <p>Your trusted medical PG platform, guiding IMGs with structured global career pathways — UK, Australia, NZ, UAE, Canada and beyond.</p>
+        </div>
+        <div>
+          <h5>Our office</h5>
+          <address>
+            138/6, Ground Floor, 10th Main Road,<br/>
+            6th-A Cross, Sadashivanagar, Bengaluru,<br/>
+            Karnataka 560080
+          </address>
+          <h5 style="margin-top: 24px;">Call us</h5>
+          <p>
+            <a href="tel:+917483524565">+91 74835 24565</a><br/>
+            <a href="mailto:info@goocampus.in">info@goocampus.in</a>
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 GooCampus. All rights reserved.</div>
+        <div>Made with care for IMGs.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.closest('.faq-item')?.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>
