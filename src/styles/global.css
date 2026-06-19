@@ -549,8 +549,10 @@ section { position: relative; z-index: 2; }
 /* ========== FOR YOU IF ========== */
 .foryou-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  max-width: 820px;
+  margin: 0 auto;
 }
 .foryou-card {
   background: var(--paper-card);
