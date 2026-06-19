@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import ChapterReader from '../components/ChapterReader.astro';
 const RAW_BASE = import.meta.env.BASE_URL;
 const BASE = RAW_BASE.endsWith('/') ? RAW_BASE : RAW_BASE + '/';
 
@@ -252,7 +253,7 @@ const faq = [
       </div>
       <div class="toc">
         <div class="toc-item toc-item-free">
-          <div class="toc-row toc-row-btn toc-row-free">
+          <button class="toc-row toc-row-btn toc-row-free" type="button" data-reader-open>
             <div class="toc-num">01</div>
             <div class="toc-title">
               {chapters[0].t}
@@ -261,7 +262,7 @@ const faq = [
             <div class="toc-meta is-new toc-meta-free">
               Free chapter <span class="toc-caret">→</span>
             </div>
-          </div>
+          </button>
           <div class="toc-free-banner">
             <span class="toc-free-dot"></span>
             No signup. No payment. The complete first chapter — free to read.
@@ -535,6 +536,9 @@ const faq = [
       } catch (err) {}
     })();
   </script>
+
+  <!-- ========== CHAPTER 1 READER ========== -->
+  <ChapterReader />
 
   <!-- ========== MOBILE STICKY CTA ========== -->
   <div class="mobile-bar">
