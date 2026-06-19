@@ -38,23 +38,24 @@ const bonuses = [
   { title: "Master's Courses (Level 9) in New Zealand", body: 'Curated list of Level 9 Master\'s programmes for IMGs planning a 3-year Post-Study Work Visa route.' },
 ];
 
-// PLACEHOLDER NAMES — replace with real reader names before paid traffic.
-// Mix of South Indian and North Indian doctors to reflect the GooCampus audience.
-const reviewers = [
-  'Dr. Priya Sharma',
-  'Dr. Rahul Menon',
-  'Dr. Aishwarya Krishnan',
-  'Dr. Karthik Reddy',
-  'Dr. Meera Pillai',
-  'Dr. Sanjay Iyer',
-  'Dr. Arjun Nair',
-  'Dr. Divya Subramanian',
-  'Dr. Vikram Malhotra',
-  'Dr. Ananya Gupta',
-  'Dr. Pooja Agarwal',
-  'Dr. Siddharth Bhattacharya',
-  'Dr. Neha Joshi',
-  'Dr. Ankit Mishra',
+// PLACEHOLDER TESTIMONIALS — replace with real reader quotes before paid traffic.
+// Mix of South Indian and North Indian names to reflect the GooCampus audience.
+const testimonials = [
+  {
+    quote: 'Before this guide, I had no idea how NZREX connected to my visa and PR timeline. It laid everything out in one place — the sequence made complete sense.',
+    name: 'Dr. Priya Sharma',
+    init: 'P',
+  },
+  {
+    quote: 'I was sitting on three open browser tabs for two months trying to figure out which pathway applied to me. The Handbook decided it for me in one chapter.',
+    name: 'Dr. Karthik Reddy',
+    init: 'K',
+  },
+  {
+    quote: 'The cost and salary breakdown was what made the difference for me. I finally knew what to save, what I would earn, and when. No more guessing on numbers.',
+    name: 'Dr. Meera Pillai',
+    init: 'M',
+  },
 ];
 
 const faq = [
@@ -341,26 +342,26 @@ const faq = [
     </div>
   </section>
 
-  <!-- ========== REVIEWERS (names only) ========== -->
-  <section class="section reviewers-section">
-    <div class="wrap-narrow">
-      <div class="reviewers-card">
-        <div class="reviewers-head">
-          <div class="reviewers-stars">★★★★★</div>
-          <div class="reviewers-rating">4.9</div>
-          <div class="reviewers-label">Reviewed by 30+ IMG readers</div>
-        </div>
-        <div class="reviewers-list">
-          {reviewers.map((name, i) => (
-            <>
-              <span class="reviewers-name">{name}</span>
-              {i < reviewers.length - 1 && <span class="reviewers-sep">·</span>}
-            </>
-          ))}
-        </div>
-        <p class="reviewers-foot">
-          Indian medical graduates who read the Handbook before beginning their New Zealand journey.
-        </p>
+  <!-- ========== TESTIMONIALS ========== -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><span class="dot"></span>What IMGs are saying</span>
+        <h2 class="h-section">Doctors who read it <em>before they began.</em></h2>
+      </div>
+      <div class="testi-grid">
+        {testimonials.map(t => (
+          <div class="testi-card">
+            <div class="testi-stars">★★★★★</div>
+            <div class="testi-quote" set:html={`"${t.quote}"`}></div>
+            <div class="testi-author">
+              <div class="testi-ava">{t.init}</div>
+              <div>
+                <div class="testi-name">{t.name}</div>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   </section>
