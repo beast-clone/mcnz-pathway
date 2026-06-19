@@ -1,0 +1,139 @@
+---
+import '../styles/global.css';
+export interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = 'New Zealand Medical PG Pathway Handbook for IMGs — GooCampus',
+  description = 'The complete handbook every IMG needs to register, find a job, and build a medical career in New Zealand. MCNZ pathways, salaries, visas — one source. ₹999.',
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#F7F2EA" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23B5251F'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='serif' font-style='italic' font-weight='600' font-size='18' fill='%23F7F2EA'%3EA%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+    <script>
+      // FAQ toggle
+      document.querySelectorAll('.faq-q').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const item = btn.closest('.faq-item');
+          item?.classList.toggle('open');
+        });
+      });
+      // Chapter Reader modal
+      const reader = document.getElementById('reader');
+      const paper = document.getElementById('reader-paper');
+      const fill = document.getElementById('reader-progress-fill');
+      const pdfWrap = document.getElementById('reader-pdf-wrap');
+      const pdfPages = document.getElementById('reader-pdf-pages');
+      const pdfLoading = document.getElementById('reader-pdf-loading');
+      let pdfLoaded = false;
+      const renderPdf = async () => {
+        if (pdfLoaded || !pdfWrap || !pdfPages) return;
+        pdfLoaded = true;
+        const src = pdfWrap.getAttribute('data-pdf-src');
+        try {
+          if (!window.pdfjsLib) {
+            await new Promise((res, rej) => {
+              const s = document.createElement('script');
+              s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.min.mjs';
+              s.type = 'module';
+              s.onload = res;
+              s.onerror = rej;
+              document.head.appendChild(s);
+            });
+          }
+          const pdfjsLib = await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.min.mjs');
+          pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.worker.min.mjs';
+          const pdf = await pdfjsLib.getDocument(src).promise;
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          const containerWidth = Math.min(pdfWrap.clientWidth - 32, 900);
+          for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const viewport0 = page.getViewport({ scale: 1 });
+            const scale = containerWidth / viewport0.width;
+            const viewport = page.getViewport({ scale: scale * dpr });
+            const canvas = document.createElement('canvas');
+            canvas.className = 'pdf-page';
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            canvas.style.width = (viewport.width / dpr) + 'px';
+            canvas.style.height = (viewport.height / dpr) + 'px';
+            pdfPages.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+            await page.render({ canvasContext: ctx, viewport }).promise;
+          }
+          if (pdfLoading) pdfLoading.style.display = 'none';
+        } catch (err) {
+          if (pdfLoading) pdfLoading.textContent = 'Could not load chapter. Please refresh.';
+          console.error(err);
+        }
+      };
+      const open = () => {
+        if (!reader) return;
+        reader.classList.add('open');
+        reader.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        if (paper) paper.scrollTop = 0;
+        if (pdfWrap) pdfWrap.scrollTop = 0;
+        renderPdf();
+      };
+      const close = () => {
+        if (!reader) return;
+        reader.classList.remove('open');
+        reader.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      };
+      document.querySelectorAll('[data-reader-open]').forEach((el) => {
+        el.addEventListener('click', (e) => { e.preventDefault(); open(); });
+      });
+      document.querySelectorAll('[data-reader-close]').forEach((el) => {
+        el.addEventListener('click', () => close());
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && reader?.classList.contains('open')) close();
+        // Block Ctrl/Cmd + P (print) and Ctrl/Cmd + S (save) while reader is open
+        const isCmd = e.ctrlKey || e.metaKey;
+        if (isCmd && (e.key === 'p' || e.key === 'P' || e.key === 's' || e.key === 'S')) {
+          if (reader?.classList.contains('open')) { e.preventDefault(); e.stopPropagation(); }
+        }
+      });
+      document.addEventListener('contextmenu', (e) => {
+        if (reader?.classList.contains('open')) e.preventDefault();
+      });
+      if (paper && fill) {
+        paper.addEventListener('scroll', () => {
+          const max = paper.scrollHeight - paper.clientHeight;
+          const pct = max > 0 ? (paper.scrollTop / max) * 100 : 0;
+          fill.style.width = pct + '%';
+        });
+      }
+      if (pdfWrap && fill) {
+        pdfWrap.addEventListener('scroll', () => {
+          const max = pdfWrap.scrollHeight - pdfWrap.clientHeight;
+          const pct = max > 0 ? (pdfWrap.scrollTop / max) * 100 : 0;
+          fill.style.width = pct + '%';
+        });
+      }
+      if (new URLSearchParams(location.search).get('openReader') === '1') open();
+    </script>
+  </body>
+</html>

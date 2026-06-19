@@ -1,0 +1,37 @@
+---
+// Chapter 1 — Introduction to the Australian Pathway
+// Embeds the actual chapter-1.pdf with download/print disabled.
+const RAW_BASE = import.meta.env.BASE_URL;
+const BASE = RAW_BASE.endsWith('/') ? RAW_BASE : RAW_BASE + '/';
+const PDF_SRC = `${BASE}chapter-1.pdf`;
+---
+
+<div class="reader" id="reader" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="reader-title">
+  <div class="reader-overlay" data-reader-close></div>
+  <div class="reader-shell reader-shell-pdf" role="document">
+    <header class="reader-bar">
+      <div class="reader-bar-left">
+        <span class="reader-bar-mark">A</span>
+        <div>
+          <div class="reader-bar-eyebrow">Free Preview · Chapter 01 / 16</div>
+          <div class="reader-bar-title" id="reader-title">Introduction to the Australian Pathway</div>
+        </div>
+      </div>
+      <div class="reader-bar-right">
+        <a class="reader-buy" href="https://rzp.io/rzp/tMthGCGv" target="_blank" rel="noopener">Get the full Blueprint · ₹999 →</a>
+        <button class="reader-close" type="button" data-reader-close aria-label="Close reader">×</button>
+      </div>
+    </header>
+    <div class="reader-progress"><div class="reader-progress-fill" id="reader-progress-fill"></div></div>
+
+    <div class="reader-pdf-wrap" id="reader-pdf-wrap" oncontextmenu="return false;" data-pdf-src={PDF_SRC}>
+      <div class="reader-pdf-pages" id="reader-pdf-pages" aria-label="Chapter 1 — Introduction to the Australian Pathway"></div>
+      <div class="reader-pdf-loading" id="reader-pdf-loading">Loading chapter…</div>
+    </div>
+
+    <footer class="reader-pdf-foot">
+      <div class="reader-pdf-foot-note">Chapters 2–16 are locked. Get the full Blueprint to unlock.</div>
+      <a class="btn btn-red" href="https://rzp.io/rzp/tMthGCGv" target="_blank" rel="noopener">Get full Blueprint — ₹999 →</a>
+    </footer>
+  </div>
+</div>
