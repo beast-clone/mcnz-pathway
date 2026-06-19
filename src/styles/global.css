@@ -398,9 +398,11 @@ section { position: relative; z-index: 2; }
 .stats-block .section-head p { color: rgba(247,242,234,0.7); }
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 18px;
   border-top: none;
+  max-width: 980px;
+  margin: 0 auto;
 }
 .stat {
   padding: 32px 22px;
@@ -423,9 +425,8 @@ section { position: relative; z-index: 2; }
 .stat .num em { font-style: normal; color: var(--red); font-size: 0.55em; font-weight: 600; vertical-align: 8px; margin-left: 2px; }
 .stat .label { font-size: 13.5px; line-height: 1.45; color: var(--paper); font-weight: 500; margin-bottom: 8px; }
 .stat .src { font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(247,242,234,0.45); }
-@media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 720px)  { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px)  { .stats-grid { grid-template-columns: 1fr; } }
+@media (max-width: 720px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } }
 
 /* ========== CHAPTERS ========== */
 .toc {
