@@ -1,0 +1,2 @@
+# Keep the bare netlify.app URL working too (redirect / to /nz-pathway/)
+/  /nz-pathway/  301
