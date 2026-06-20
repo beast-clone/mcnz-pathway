@@ -1,2 +1,3 @@
-# Keep the bare netlify.app URL working too (redirect / to /nz-pathway/)
-/  /nz-pathway/  301
+# Strip /nz-pathway/ prefix internally so assets resolve from root
+# This makes both the bare netlify.app URL AND the goocampusevents.com/nz-pathway/ proxy work
+/nz-pathway/*  /:splat  200!
