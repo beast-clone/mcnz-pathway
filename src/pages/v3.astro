@@ -1,0 +1,772 @@
+---
+const RAW_BASE = import.meta.env.BASE_URL;
+const BASE = RAW_BASE.endsWith('/') ? RAW_BASE : RAW_BASE + '/';
+
+const chapters = [
+  { n: '01', t: 'Why New Zealand?', free: true, sub: 'Workforce gaps, salaries, and the IMG opportunity.' },
+  { n: '02', t: 'Registration Pathways', sub: 'NZREX, Exam-Based, and Australia / UK routes.' },
+  { n: '03', t: 'EPIC Primary Source Verification', sub: 'Step-by-step document verification.' },
+  { n: '04', t: 'Financial Planning', sub: 'Costs, timelines, and budgeting from start to finish.' },
+  { n: '05', t: 'Study Resources & Job Portals', sub: 'Exactly where to study, exactly where to apply.' },
+  { n: '06', t: 'Salary, Tax & Living Costs', sub: 'House Officer → Registrar salary structure + real living costs.' },
+  { n: '07', t: 'Visa, PR & Citizenship', sub: 'The Green List, PR routes, and the citizenship path.' },
+  { n: '08', t: 'Official Reference Portals', sub: '43 verified official sources to bookmark.' },
+];
+
+const stats = [
+  { num: '1,700', label: 'Doctor shortage in NZ — projected to hit 3,400 by 2032' },
+  { num: '43%', label: 'Of NZ doctors are overseas-trained — IMGs are essential' },
+  { num: 'NZD 81,990', label: 'House Officer starting salary — entry-level' },
+  { num: 'NZD 216,200', label: 'Senior Registrar top salary' },
+];
+
+const benefits = [
+  { title: 'Know your pathway in 1 read', body: 'NZREX, Comparable Health System, or AU/UK route — decisively identified for your background.' },
+  { title: 'Never miss a hiring window', body: 'Every RMO recruitment round and DHB intake mapped, so you apply at the right time.' },
+  { title: 'Budget without surprises', body: 'Full cost breakdown from EPIC verification through to relocation and first month rent.' },
+  { title: 'Land your PR strategy first', body: 'The Green List, PR routes, and Post-Study Work Visa play — before you book a flight.' },
+];
+
+const faq = [
+  { q: 'Who is this handbook for?', a: 'Indian Medical Graduates and final-year MBBS students seriously considering New Zealand. The handbook assumes zero prior NZ-specific knowledge and starts from scratch.' },
+  { q: 'Is the information up to date?', a: 'Yes. Every chapter is reviewed against 2026 Medical Council of New Zealand (MCNZ) regulations, Immigration NZ policy, and Te Whatu Ora salary data.' },
+  { q: 'Which pathways does it cover?', a: 'All three: NZREX (exam-based), Comparable Health System (CHS), and the Australia / UK / Ireland competent authority route. We help you identify which fits you best.' },
+  { q: 'When will I get access?', a: 'Instant — the PDF download link arrives by email and WhatsApp the moment your Razorpay payment goes through.' },
+  { q: 'What is the 30-minute call?', a: 'Every buyer gets a complimentary 30-minute one-on-one consultation with our expert NZ counsellors. We will reach out within 48 hours of purchase.' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>New Zealand Medical Pathway Handbook for IMGs — GooCampus</title>
+  <meta name="description" content="The complete handbook every IMG needs to register, find a job, and build a medical career in New Zealand. ₹999. Includes a free 30-minute expert call." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0A0A0A;
+      --ink-2: #1F2937;
+      --ink-3: #4B5563;
+      --ink-4: #9CA3AF;
+      --line: #E5E7EB;
+      --line-2: #F3F4F6;
+      --paper: #FFFFFF;
+      --paper-2: #FAFAFA;
+      --accent: #1B4FF9;
+      --accent-deep: #0D38C1;
+      --accent-soft: #E7EDFF;
+      --gold: #F59E0B;
+      --green: #10B981;
+      --serif: 'Instrument Serif', serif;
+      --sans: 'Inter', system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--paper);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+    .wrap-narrow { max-width: 920px; margin: 0 auto; padding: 0 28px; }
+
+    /* ===== NAV ===== */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 28px; max-width: 1200px; margin: 0 auto;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand img { width: 32px; height: 32px; object-fit: contain; }
+    .brand-text {
+      font-weight: 700; font-size: 14.5px; letter-spacing: -0.01em;
+    }
+    .brand-text small {
+      display: block; font-size: 11.5px; font-weight: 500; color: var(--ink-3);
+      letter-spacing: 0; margin-top: 1px;
+    }
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 22px; border-radius: 999px;
+      background: var(--ink); color: #fff;
+      font-weight: 700; font-size: 13.5px;
+      transition: background .2s ease, transform .2s ease;
+    }
+    .nav-cta:hover { background: var(--accent); transform: translateY(-1px); }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding: 60px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-deep);
+      font-size: 12.5px; font-weight: 700; letter-spacing: 0.02em;
+      margin-bottom: 24px;
+    }
+    .tag .ico { font-size: 14px; }
+    .h-hero {
+      font-size: clamp(40px, 5.6vw, 78px);
+      font-weight: 800;
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+      margin-bottom: 22px;
+      color: var(--ink);
+    }
+    .h-hero em {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+    .hero-sub {
+      font-size: 18px;
+      color: var(--ink-3);
+      margin-bottom: 28px;
+      max-width: 520px;
+    }
+    .hero-tags {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 14px; border-radius: 8px;
+      background: var(--paper-2);
+      border: 1px solid var(--line);
+      font-size: 12.5px; font-weight: 600; color: var(--ink-2);
+    }
+    .chip .ico { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 17px 30px; border-radius: 999px;
+      font-weight: 700; font-size: 15px; cursor: pointer;
+      border: none; transition: transform .2s ease, box-shadow .2s ease;
+      font-family: var(--sans);
+    }
+    .btn-primary {
+      background: var(--ink); color: #fff;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.18);
+    }
+    .btn-primary:hover { transform: translateY(-2px); background: var(--accent); box-shadow: 0 16px 44px rgba(27,79,249,0.30); }
+    .btn-ghost {
+      background: var(--paper);
+      color: var(--ink);
+      border: 1.5px solid var(--ink);
+    }
+    .btn-ghost:hover { background: var(--ink); color: #fff; }
+
+    .hero-trust {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+    }
+    .hero-trust .stars { color: var(--gold); font-size: 16px; letter-spacing: 0.04em; }
+    .hero-trust .stars-label { font-size: 13.5px; color: var(--ink-3); font-weight: 500; }
+    .hero-trust .divider { width: 1px; height: 16px; background: var(--line); }
+
+    /* Hero book — clean perspective */
+    .hero-book {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .hero-book img {
+      width: 100%; max-width: 360px;
+      border-radius: 4px;
+      box-shadow:
+        0 1px 0 rgba(0,0,0,0.1),
+        0 22px 60px rgba(0,0,0,0.15),
+        0 42px 100px rgba(0,0,0,0.12),
+        inset 14px 0 18px -12px rgba(0,0,0,0.55);
+      transform: rotate(-2deg);
+    }
+    .seal {
+      position: absolute; right: -12px; top: -28px;
+      width: 130px; height: 130px; border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 2px;
+      text-align: center;
+      transform: rotate(8deg);
+      box-shadow: 0 14px 34px rgba(27,79,249,0.40);
+      border: 4px solid #fff;
+    }
+    .seal-num { font-family: var(--serif); font-style: italic; font-size: 30px; line-height: 1; margin-top: 4px; }
+    .seal-mid { font-size: 11px; font-weight: 800; letter-spacing: 0.12em; margin-top: 5px; }
+    .seal-sub { font-size: 8.5px; font-weight: 700; letter-spacing: 0.15em; opacity: 0.92; margin-top: 6px; padding-top: 5px; border-top: 1px solid rgba(255,255,255,0.4); width: 64%; }
+
+    /* ===== MARQUEE ===== */
+    .marquee {
+      background: var(--ink);
+      color: #fff;
+      padding: 22px 0;
+      overflow: hidden;
+      border-top: 1px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+    }
+    .marquee-track {
+      display: flex; gap: 60px;
+      animation: marquee 30s linear infinite;
+      white-space: nowrap;
+      font-family: var(--serif);
+      font-size: 28px; font-style: italic;
+      width: max-content;
+    }
+    .marquee-track span { display: inline-flex; align-items: center; gap: 60px; }
+    .marquee-track .dot { color: var(--accent); font-size: 22px; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ===== SECTION ===== */
+    section { padding: 100px 0; position: relative; }
+    .section-head { margin-bottom: 48px; max-width: 720px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 12.5px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .eyebrow::before {
+      content: ''; width: 24px; height: 1px; background: var(--accent);
+    }
+    .h-section {
+      font-size: clamp(32px, 4.4vw, 56px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+    .h-section em {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+    .h-section + p { font-size: 17px; color: var(--ink-3); margin-top: 14px; }
+
+    /* ===== STATS ===== */
+    .stats-block {
+      background: var(--paper-2);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    }
+    .stat-cell {
+      padding: 36px 28px;
+      border-right: 1px solid var(--line);
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-num {
+      font-size: 42px; font-weight: 800; letter-spacing: -0.03em;
+      color: var(--ink); line-height: 1;
+      margin-bottom: 14px;
+    }
+    .stat-label { font-size: 14px; color: var(--ink-3); line-height: 1.5; }
+
+    /* ===== BENEFITS ===== */
+    .benefits-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    }
+    .benefit {
+      padding: 32px 28px;
+      border-radius: 18px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      transition: border-color .2s ease, transform .2s ease;
+    }
+    .benefit:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .benefit-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--accent-soft); color: var(--accent-deep);
+      font-weight: 800; font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .benefit h4 { font-size: 19px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; }
+    .benefit p { font-size: 14.5px; color: var(--ink-3); line-height: 1.55; }
+
+    /* ===== CHAPTERS ===== */
+    .chapters-list { display: flex; flex-direction: column; gap: 8px; }
+    .ch {
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      gap: 24px;
+      align-items: center;
+      padding: 22px 28px;
+      border-radius: 14px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      transition: all .2s ease;
+    }
+    .ch:hover { border-color: var(--ink); }
+    .ch-num {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 28px;
+      color: var(--ink-4);
+      line-height: 1;
+    }
+    .ch-body h4 { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+    .ch-body p { font-size: 13.5px; color: var(--ink-3); margin-top: 2px; }
+    .ch-meta {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11.5px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--ink-4);
+    }
+    .ch-meta svg { width: 14px; height: 14px; }
+    .ch.is-free {
+      border: 2px solid var(--accent);
+      background: linear-gradient(135deg, #F5F8FF 0%, #FFFFFF 60%);
+      box-shadow: 0 8px 24px rgba(27,79,249,0.10);
+    }
+    .ch.is-free .ch-num { color: var(--accent); font-weight: 700; }
+    .ch.is-free .ch-meta {
+      color: #fff;
+      background: var(--accent);
+      padding: 6px 14px;
+      border-radius: 999px;
+      letter-spacing: 0.12em;
+    }
+    .ch.is-free::after {
+      content: 'FREE TO READ — NO SIGNUP';
+      grid-column: 1 / -1;
+      font-size: 11px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); padding-top: 14px;
+      border-top: 1px dashed var(--accent);
+      margin-top: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .ch.is-free::before {
+      content: ''; grid-column: 1 / -1; display: none;
+    }
+
+    /* ===== WHAT YOU GET ===== */
+    .package {
+      background: var(--ink);
+      color: #fff;
+      border-radius: 28px;
+      padding: 60px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .package::before {
+      content: ''; position: absolute; top: -100px; right: -100px;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: var(--accent); opacity: 0.18; filter: blur(60px);
+    }
+    .package-head {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      flex-wrap: wrap; gap: 28px;
+      margin-bottom: 40px;
+      position: relative;
+    }
+    .package-head h2 {
+      font-size: clamp(30px, 3.4vw, 44px);
+      font-weight: 800; letter-spacing: -0.025em; line-height: 1.05;
+      max-width: 540px;
+    }
+    .package-head h2 em {
+      font-family: var(--serif); font-style: italic; font-weight: 400; color: #93B4FF;
+    }
+    .package-price {
+      display: flex; flex-direction: column; align-items: flex-end;
+    }
+    .package-price .old { font-size: 18px; color: rgba(255,255,255,0.5); text-decoration: line-through; }
+    .package-price .now { font-size: 56px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; margin-top: 6px; }
+    .package-price .tag { font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase; color: #93B4FF; font-weight: 700; margin-top: 8px; }
+
+    .package-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+      margin-bottom: 36px;
+      position: relative;
+    }
+    .package-card {
+      padding: 28px 26px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(20px);
+    }
+    .package-card .ico {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; border-radius: 12px;
+      background: var(--accent);
+      font-size: 20px; margin-bottom: 16px;
+    }
+    .package-card h4 { font-size: 18px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.01em; }
+    .package-card p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.55; }
+    .package-card .pill {
+      display: inline-flex; margin-top: 14px;
+      padding: 4px 12px; border-radius: 999px;
+      background: rgba(27,79,249,0.30);
+      color: #C4D4FF;
+      font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700;
+    }
+    .package-cta {
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+      flex-wrap: wrap; position: relative;
+    }
+    .package-cta .btn-primary {
+      background: var(--accent); color: #fff;
+      padding: 18px 32px; font-size: 15.5px;
+    }
+    .package-cta .btn-primary:hover { background: #fff; color: var(--ink); }
+    .package-cta-note { font-size: 13px; color: rgba(255,255,255,0.6); }
+
+    /* ===== FAQ ===== */
+    .faq-list { display: flex; flex-direction: column; gap: 10px; }
+    .faq-item {
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      overflow: hidden;
+    }
+    .faq-q {
+      width: 100%; padding: 22px 28px;
+      background: transparent; border: none;
+      color: var(--ink); font-size: 16px; font-weight: 700;
+      text-align: left; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--sans);
+      letter-spacing: -0.01em;
+    }
+    .faq-q .plus {
+      font-size: 22px; line-height: 1; color: var(--accent);
+      transition: transform .25s ease;
+    }
+    .faq-item.open .faq-q .plus { transform: rotate(45deg); }
+    .faq-a { padding: 0 28px; max-height: 0; overflow: hidden; transition: max-height .35s ease, padding .35s ease; }
+    .faq-a p { color: var(--ink-3); font-size: 14.5px; line-height: 1.65; }
+    .faq-item.open .faq-a { padding: 0 28px 22px; max-height: 320px; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.7);
+      padding: 64px 0 28px;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 48px;
+    }
+    footer h5 {
+      font-size: 11px; font-weight: 800; letter-spacing: 0.20em; text-transform: uppercase;
+      color: #93B4FF; margin-bottom: 14px;
+    }
+    footer p, footer address { font-style: normal; font-size: 14px; line-height: 1.7; }
+    footer a { color: #fff; }
+    footer a:hover { color: #93B4FF; }
+    .footer-brand-block { display: flex; flex-direction: column; gap: 18px; }
+    .footer-brand-block .brand img { filter: brightness(0) invert(1); }
+    .footer-brand-block .brand-text, .footer-brand-block .brand-text small { color: #fff; }
+    .footer-bottom {
+      margin-top: 48px; padding-top: 22px;
+      border-top: 1px solid rgba(255,255,255,0.10);
+      font-size: 12.5px; color: rgba(255,255,255,0.55);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 960px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .hero-book { order: -1; max-width: 320px; margin: 0 auto; }
+      .benefits-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-cell:nth-child(2) { border-right: none; }
+      .stat-cell { border-bottom: 1px solid var(--line); }
+      .package { padding: 40px 28px; border-radius: 22px; }
+      .package-grid { grid-template-columns: 1fr; }
+      .package-head { flex-direction: column; align-items: flex-start; }
+      .package-price { align-items: flex-start; }
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .ch { grid-template-columns: 48px 1fr; }
+      .ch-meta { grid-column: 2; }
+      .marquee-track { font-size: 22px; }
+    }
+    @media (max-width: 540px) {
+      section { padding: 64px 0; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .stat-cell { border-right: none; }
+      .h-hero { font-size: 38px; }
+      .cta-row { flex-direction: column; align-items: stretch; }
+      .cta-row .btn { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top">
+        <img src={`${BASE}goocampus-logo.png`} alt="GooCampus" />
+        <div class="brand-text">
+          GooCampus
+          <small>NZ Pathway Handbook</small>
+        </div>
+      </a>
+      <a class="nav-cta" href="https://rzp.io/rzp/tMthGCGv" target="_blank" rel="noopener">Get the Handbook — ₹999</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="tag">
+          <span class="ico">🇳🇿</span>
+          The Complete IMG Guide · 2026 Edition
+        </div>
+        <h1 class="h-hero">
+          Practice medicine<br/>
+          in <em>New Zealand.</em><br/>
+          One handbook. Every step.
+        </h1>
+        <p class="hero-sub">
+          The structured roadmap for Indian Medical Graduates — from MCNZ registration to PGY1 placement to permanent residency. Written without the noise.
+        </p>
+        <div class="hero-tags">
+          <span class="chip"><span class="ico"></span> 8 chapters · 180 pages</span>
+          <span class="chip"><span class="ico"></span> Instant PDF · Phone, tablet, laptop</span>
+          <span class="chip"><span class="ico"></span> 30-min expert call included</span>
+          <span class="chip"><span class="ico"></span> Free 2026 updates</span>
+        </div>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://rzp.io/rzp/tMthGCGv" target="_blank" rel="noopener">Get your copy — ₹999 →</a>
+          <a class="btn btn-ghost" href="#inside">View Chapter 1 free ↓</a>
+        </div>
+        <div class="hero-trust">
+          <div class="stars">★★★★★</div>
+          <div class="stars-label">4.9 — from 200+ IMG readers</div>
+          <div class="divider"></div>
+          <div class="stars-label">Reflects 2026 MCNZ rules</div>
+        </div>
+      </div>
+      <div class="hero-book">
+        <img src={`${BASE}book-cover.png`} alt="New Zealand Medical Pathway Handbook" />
+        <div class="seal">
+          <span class="seal-num">30</span>
+          <span class="seal-mid">MIN EXPERT</span>
+          <span class="seal-mid">CALL</span>
+          <span class="seal-sub">INCLUDED</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>
+        <span>Practice Medicine in New Zealand</span><span class="dot">✦</span>
+        <span>Register · Work · Settle</span><span class="dot">✦</span>
+        <span>NZREX · CHS · CA Pathway</span><span class="dot">✦</span>
+        <span>One Handbook. Every Step.</span><span class="dot">✦</span>
+        <span>Practice Medicine in New Zealand</span><span class="dot">✦</span>
+        <span>Register · Work · Settle</span><span class="dot">✦</span>
+        <span>NZREX · CHS · CA Pathway</span><span class="dot">✦</span>
+        <span>One Handbook. Every Step.</span><span class="dot">✦</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <section class="stats-block" style="padding: 0;">
+    <div class="wrap">
+      <div class="stats-grid">
+        {stats.map(s => (
+          <div class="stat-cell">
+            <div class="stat-num">{s.num}</div>
+            <div class="stat-label">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">What you'll know</div>
+        <h2 class="h-section">After one weekend, you'll have <em>the entire pathway mapped.</em></h2>
+        <p>Four outcomes that decide whether you arrive in New Zealand prepared or improvising.</p>
+      </div>
+      <div class="benefits-grid">
+        {benefits.map((b, i) => (
+          <div class="benefit">
+            <div class="benefit-num">{String(i + 1).padStart(2, '0')}</div>
+            <h4>{b.title}</h4>
+            <p>{b.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTERS -->
+  <section id="inside" style="background: var(--paper-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">What's inside</div>
+        <h2 class="h-section">8 chapters. <em>Every stage covered.</em></h2>
+        <p><strong>Chapter 1 is yours to read free.</strong> No signup. No payment. The other 7 unlock when you get your copy.</p>
+      </div>
+      <div class="chapters-list">
+        {chapters.map(c => (
+          <div class={`ch ${c.free ? 'is-free' : ''}`}>
+            <div class="ch-num">{c.n}</div>
+            <div class="ch-body">
+              <h4>{c.t}</h4>
+              <p>{c.sub}</p>
+            </div>
+            <div class="ch-meta">
+              {c.free ? 'Free preview →' : (
+                <>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+                  Locked
+                </>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT YOU GET PACKAGE -->
+  <section>
+    <div class="wrap">
+      <div class="package">
+        <div class="package-head">
+          <h2>
+            ₹999 — All inclusive.<br/>
+            <em>One investment. Two powerful resources.</em>
+          </h2>
+          <div class="package-price">
+            <span class="old">₹2,499</span>
+            <span class="now">₹999</span>
+            <span class="tag">Launch · Instant access</span>
+          </div>
+        </div>
+        <div class="package-grid">
+          <div class="package-card">
+            <div class="ico">📘</div>
+            <h4>NZ Medical Pathway Handbook</h4>
+            <p>180-page PDF. 8 chapters. Every step from MCNZ registration to PR — sourced, sequenced, current to 2026.</p>
+            <span class="pill">Instant download</span>
+          </div>
+          <div class="package-card">
+            <div class="ico">📞</div>
+            <h4>30-minute expert call</h4>
+            <p>One-on-one with our NZ counsellor. We map the fastest realistic next step for your specific stage and background.</p>
+            <span class="pill">Worth ₹2,499 · Free</span>
+          </div>
+        </div>
+        <div class="package-cta">
+          <a class="btn btn-primary" href="https://rzp.io/rzp/tMthGCGv" target="_blank" rel="noopener">Secure your copy — ₹999 →</a>
+          <div class="package-cta-note">Instant access · Counsellor call within 48 hours · Free updates for 2026</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="wrap-narrow">
+      <div class="section-head">
+        <div class="eyebrow">Before you buy</div>
+        <h2 class="h-section">Frequently asked <em>questions.</em></h2>
+      </div>
+      <div class="faq-list">
+        {faq.map(f => (
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              {f.q}
+              <span class="plus">+</span>
+            </button>
+            <div class="faq-a"><p>{f.a}</p></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand-block">
+          <div class="brand">
+            <img src={`${BASE}goocampus-logo.png`} alt="GooCampus" />
+            <div class="brand-text">
+              GooCampus
+              <small style="color: rgba(255,255,255,0.6);">NZ Pathway Handbook</small>
+            </div>
+          </div>
+          <p>Your trusted medical PG platform, guiding IMGs with structured global career pathways — UK, Australia, NZ, UAE, Canada and beyond.</p>
+        </div>
+        <div>
+          <h5>Our office</h5>
+          <address>
+            138/6, Ground Floor, 10th Main Road,<br/>
+            6th-A Cross, Sadashivanagar,<br/>
+            Bengaluru, Karnataka 560080
+          </address>
+        </div>
+        <div>
+          <h5>Contact us</h5>
+          <p>
+            <a href="tel:+917483524565">+91 74835 24565</a><br/>
+            <a href="mailto:info@goocampus.in">info@goocampus.in</a>
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 GooCampus. All rights reserved.</div>
+        <div>Made with care for IMGs.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.closest('.faq-item')?.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>
